@@ -1,5 +1,6 @@
 <?php
-include 'db.php';
+error_reporting(E_ALL);
+include 'db/config.php';
 
 header("Content-Type: application/json");
 
