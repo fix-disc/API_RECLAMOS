@@ -15,7 +15,7 @@ $dbname = "c1551705_lib_que";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-$conn->set_charset("utf8mb4");
+$conn->set_charset("utf8mb4"); 
 
 // Check connection
 if ($conn->connect_error) {
