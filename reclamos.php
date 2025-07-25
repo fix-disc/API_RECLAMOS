@@ -3,8 +3,10 @@ include 'db/config.php';
 error_reporting(1);
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-$method = $_SERVER['REQUEST_METHOD'];
+
 $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 //var_dump("INPUT: " + file_get_contents('php://input')) ;
@@ -29,7 +31,7 @@ switch ($method) {
         break;
 
     case 'POST':
-        $reclamo = $input["body"]["reclamo"];;
+        $reclamo = $input["reclamo"];
         $conn->query("INSERT INTO reclamos (texto) VALUES ('$reclamo')");
         echo json_encode(["message" => "Reclamo agregado"]);
         break;
