@@ -5,37 +5,33 @@ error_reporting(1);
 header("Content-Type: application/json");
 
 $method = $_SERVER['REQUEST_METHOD'];
+$method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
+//var_dump("INPUT: " + file_get_contents('php://input')) ;
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['uuid'])) {
-            $id = $_GET['uuid'];
-            $result = $conn->query("SELECT * FROM usuarios WHERE uuid=$id");
-            $users = [];
+        if (isset($_GET['reclamo'])) {
+            $reclamo = $_GET['reclamo'];
+            $result = $conn->query("SELECT * FROM reclamos WHERE id='$reclamo'");
+            $reclamo = [];
             if($result != ""){
                  while ($row = $result->fetch_assoc()) {
-                    $users[] = $row;
+                    $reclamo[] = $row;
                 }
             }
-            echo json_encode($users);
+            echo json_encode($reclamo);
             
         } else {
-            $result = $conn->query("SELECT * FROM usuarios");
-            $users = [];
-            while ($row = $result->fetch_assoc()) {
-                $users[] = $row;
-            }
-            echo json_encode($users);
+            $reclamos = [];
+            echo json_encode($reclamos);
         }
         break;
 
     case 'POST':
-        $name = $input['name'];
-        $email = $input['email'];
-        $age = $input['age'];
-        $conn->query("INSERT INTO users (name, email, age) VALUES ('$name', '$email', $age)");
-        echo json_encode(["message" => "User added successfully"]);
+        $reclamo = $input["body"]["reclamo"];;
+        $conn->query("INSERT INTO reclamos (texto) VALUES ('$reclamo')");
+        echo json_encode(["message" => "Reclamo agregado"]);
         break;
 
     case 'PUT':

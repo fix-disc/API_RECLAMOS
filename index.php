@@ -1,6 +1,6 @@
 <?php
-include 'db/config.php';
 error_reporting(1);
+include 'db/config.php';
 
 header("Content-Type: application/json");
 
@@ -9,17 +9,11 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['uuid'])) {
-            $id = $_GET['uuid'];
-            $result = $conn->query("SELECT * FROM usuarios WHERE uuid=$id");
-            $users = [];
-            if($result != ""){
-                 while ($row = $result->fetch_assoc()) {
-                    $users[] = $row;
-                }
-            }
-            echo json_encode($users);
-            
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $result = $conn->query("SELECT * FROM usuarios WHERE id=$id");
+            $data = $result->fetch_assoc();
+            echo json_encode($data);
         } else {
             $result = $conn->query("SELECT * FROM usuarios");
             $users = [];
@@ -28,7 +22,7 @@ switch ($method) {
             }
             echo json_encode($users);
         }
-        break;
+        break;   
 
     case 'POST':
         $name = $input['name'];

@@ -9,9 +9,10 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['uuid'])) {
-            $id = $_GET['uuid'];
-            $result = $conn->query("SELECT * FROM usuarios WHERE uuid=$id");
+        if (isset($_GET['usuario']) && isset($_GET['password'])) {
+            $usuario = $_GET['usuario'];
+            $password = $_GET['password'];
+            $result = $conn->query("SELECT * FROM usuarios WHERE usuario='$usuario' AND clave='$password'");
             $users = [];
             if($result != ""){
                  while ($row = $result->fetch_assoc()) {
@@ -21,11 +22,7 @@ switch ($method) {
             echo json_encode($users);
             
         } else {
-            $result = $conn->query("SELECT * FROM usuarios");
             $users = [];
-            while ($row = $result->fetch_assoc()) {
-                $users[] = $row;
-            }
             echo json_encode($users);
         }
         break;
